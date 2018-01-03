@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+                 xmlns:aapt="http://schemas.android.com/aapt">
+
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="128dp"
+            android:height="128dp"
+            android:viewportHeight="600"
+            android:viewportWidth="600">
+            <path
+                android:name="wave1"
+                android:pathData="M300,300 m-50,0 a50,50 0 0,1 100,0  a50,50 0 0,1 -100,0 z"
+                android:strokeColor="#aaa"
+                android:strokeWidth="2"/>
+
+        </vector>
+    </aapt:attr>
+
+    <target android:name="wave1">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+
+                <objectAnimator
+                    android:duration="3000"
+                    android:propertyName="pathData"
+                    android:repeatCount="-1"
+                    android:repeatMode="restart"
+                    android:valueFrom="M300,300 m-299,0 a299,299 0 0,1 598,0  a299,299 0 0,1 -598,0 z"
+                    android:valueTo="M300,300 m-50,0 a50,50 0 0,1 100,0  a50,50 0 0,1 -100,0 z"
+                    android:valueType="pathType"/>
+                <objectAnimator
+                    android:duration="3000"
+                    android:propertyName="strokeAlpha"
+                    android:repeatCount="-1"
+                    android:repeatMode="restart"
+                    android:valueFrom="0.1"
+                    android:valueTo="1"
+                    android:valueType="floatType"/>
+            </set>
+        </aapt:attr>
+    </target>
+
+</animated-vector>

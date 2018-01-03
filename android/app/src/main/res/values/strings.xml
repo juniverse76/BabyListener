@@ -1,0 +1,110 @@
+<resources>
+    <string name="app_name">BabyListener</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_about">About</string>
+    <string name="action_question">Questions?</string>
+
+    <string name="prompt_target_number">Designated Number:</string>
+    <string name="prompt_minimum">sensitive</string>
+    <string name="prompt_maximum">dull</string>
+
+    <string name="prompt_sound_sensitivity">Sensitivity Level (%d)</string>
+    <string name="prompt_hint_name_or_number">Name or number</string>
+    <string name="prompt_hint_number_only">Phone number</string>
+    <string name="prompt_click_to_test">Click here to test</string>
+    <string name="prompt_click_to_stop">Click here to stop</string>
+    <string name="prompt_in_detect_mode">Listening...</string>
+
+    <string name="error_no_target_number">Designated phone number is empty!</string>
+    <string name="error_wrong_target_number">Incorrect phone number format! Please check again.</string>
+
+
+    <string name="notification_title">BabyListener</string>
+    <string name="notification_msg">BabyListener is running...</string> <!-- &#8230; -->
+
+    <string name="about_title">About BabyListener</string>
+    <string name="about_msg">This is BabyListener. What this app does is that it listens to the surroundings, and if and when there is a loud sound (perhaps baby crying?), it will make a call to the designated phone number. Yes, one application is to set this phone with this app running next to a sleeping baby and run some quick errands.\n\n** PLEASE REMEMBER!!! **\nThis app is NOT perfect. I claim NO responsibility for any accident while using this app.\n\nYou got that?</string>
+
+    <string name="sms_warning_unexpected_stop">[BabyListener]\n**WARNING**\nBabyListener has STOPPED unexpectedly!!</string>
+    <string name="sms_warning_paused">[BabyListener]\nBabyListener has been paused.</string>
+    <string name="sms_warning_paused_by_call">[BabyListener]\nIncoming call! BabyListener has been paused.</string>
+    <string name="sms_warning_resumed">[BabyListener]\nBabyListener has resumed.</string>
+    <string name="warning_not_silent_mode">Caution! The phone is NOT in silent mode.</string>
+
+    <string name="need_dnd_permission_title">Need Permission</string>
+    <string name="need_dnd_permission_msg">BabyListener needs Do Not Disturb access because when it\'s in detection mode, it tries to put the phone in SILENT mode, so the baby (perhaps) won\'t be disturbed by a phone ring. By clicking OK, the screen will switch to a different screen where you can turn on Do Not Disturb access.\n\nProceed?</string>
+    <string name="without_dnd_permission_title">No Permission Warning!</string>
+    <string name="without_dnd_permission_msg">You can change the access status later by manually selecting the link in \"Setting\" menu.</string>
+
+    <!-- Strings related to Settings -->
+    <string name="pref_enable_unexpected_finish_warning_title">Unexpected End Warning</string>
+    <string name="pref_enable_unexpected_finish_warning_desc">Send SMS to the designated number when detection has ended unexpectedly.\n(Ex. has been paused too long)</string>
+    <string name="pref_dnd_link_title">Change Do Not Disturb access</string>
+    <string name="pref_dnd_link_desc">This app needs \"Do Not Disturb\" access to silence the phone when in detect mode.\nTouch to switch the screen.</string>
+    <string name="pref_sms_cmd_title">Use SMS Call Command</string>
+    <string name="pref_sms_cmd_desc">Send SMS with the specified command code to place a call to the SMS sender.</string>
+    <string name="pref_cur_sms_cmd">Current command : [%s]</string>
+    <string name="pref_no_cur_sms_cmd">Current command : None</string>
+    <string name="pref_label_sms_cmd">Command Code</string>
+    <string name="pref_sms_notification_title">SMS Notification</string>
+    <string name="pref_sms_notification_summary">Notify every detection pause and resume event to designated number.</string>
+
+    <string-array name="pref_sure_to_disable_warning_titles">
+        <item>Are you sure?</item>
+        <item>Are you REALLY sure?</item>
+        <item>Are you 100% sure?</item>
+        <item>Think Hard</item>
+        <item>Think REALLY Hard</item>
+        <item>Think very carefully</item>
+        <item>I\'m concerned</item>
+        <item>I\'m seriously concerned</item>
+        <item>Please reconsider</item>
+        <item>Truthfully</item>
+        <item>From now on</item>
+    </string-array>
+    <string-array name="pref_sure_to_disable_warning_msgs">
+        <item>Do you REALLY want to disable the Warning?</item>
+        <item>Do you REALLY REALLY REALLY want to disable the Warning?</item>
+        <item>I mean, are you absolutely 100% sure that you want to disable the Warning?</item>
+        <item>This feature is really good. Don\'t you want it?</item>
+        <item>What if it\'s off, and you don\'t know about it, it could be problematic. Are you sure to turn off this?</item>
+        <item>You may think the detector is running well, but what if it\'s off? To imagine this... Still want it off?</item>
+        <item>App isn\'t always perfect. It never runs as well as the developer has thought through. Are you going to trust this imperfect being?</item>
+        <item>Thank you for trusting the developer, but I\'m not a god. You wouldn\'t turn this off, would you?</item>
+        <item>I\'m starting to doubt your motive on insisting to turn off this feature. I\'m ordering you not to turn this off. You wouldn\'t disobey a direct order, would you?</item>
+        <item>By now, you would\'ve realized that you cannot turn off this feature. The switch is just there for fun.</item>
+        <item>These messages will repeat. There will be no new messages. I\'m out of fresh liners. Good job.</item>
+    </string-array>
+
+    <string-array name="questions">
+        <item>What happens when, by some unknown reasons, detection has stopped?</item>
+        <item>What happens when a call comes in while the app is in detection mode?</item>
+        <item>What is the \"SMS Call Command\" thing in the setting?</item>
+        <item>Will the designated phone number be saved in other remote location?</item>
+        <item>I\'m still worried that the detection may not be running. What do I do?</item>
+    </string-array>
+    <string-array name="answers">
+        <item>If \"Unexpected End Warning\" option is enabled, BabyListener will send a SMS to the designated phone number to notify you with the situation.</item>
+        <item>When a call comes in while the app is in detection mode, it goes into pause mode. Of course, there wouldn\'t be anyone to answer the call (and the app doesn\'t answer it for you neither), the app will resume detecting when the incoming call has stopped. However, if it is paused for too long, the detection mode will terminate, and it will notify you by sending a SMS to the designated number (if \"Unexpected End Warning\" option is on).</item>
+        <item>It is a feature to make the app to place a call to the SMS sender (NOT to the designated number unless they\'re the same). To use this feature, enable the feature, input a code (no more than 12 characters), and send the same code from different phone (it can be same phone as the designated phone). For example, let\'s say that \"phone A\" is running the app and placed it in the house with the command code set to \"abcd\". Using \"phone B\" (existence of BabyListener in this phone is not relative), send a SMS message to \"phone A\" with message body as \"abcd\". When \"phone A\" receives the SMS message, \"phone A\" will place a call to \"phone B\". After answering the call and checking the sound, by hanging up from \"phone B\", \"phone A\" will resume detecting.</item>
+        <item>This app DOES record some app activities to improve the usability. However, absolutely no private information is sent and stored in any server or any where, and I have no intention of ever doing so in the future.</item>
+        <item>One method of checking by yourself without running to the phone is using \"SMS Call Command\" feature. If this feature is on, you can send the command SMS to see if it calls back. If it doesn\'t, the app may not be running.</item>
+    </string-array>
+
+    <string-array name="tutorial_texts">
+        <item>Type in the number or the name and select in the drop down (with permission) to input the phone number of the receiving end.</item>
+        <item>Adjust the bar to modify the sensitiveness of the surrounding sound.</item>
+        <item>To check the adjusted sensitivity, Touch the icon to test the detector. You will know if the detection is made. Applied sensitivity will be applied to the actual detector.</item>
+        <item>Press this button to start the real detection. The screen will become dim, and stop button will appear on the other side of the screen.</item>
+        <item>Press this button to stop the real detection. The screen will return to normal.</item>
+        <item>In detection mode, if the phone is not charging, an icons will show to notify you. It is recommended to plug in the charger while running this app.</item>
+        <item>Press here for more information.</item>
+    </string-array>
+
+    <string name="click_to_setting">\n\nTouch here to open \"Setting\".</string>
+
+    <string name="please_wait_for_ad">Please wait...</string>
+
+    <string name="tutorial_continue">\n\nTouch anywhere to continue tutorial.</string>
+    <string name="tutorial_finish">\n\nTouch anywhere to finish tutorial.</string>
+</resources>

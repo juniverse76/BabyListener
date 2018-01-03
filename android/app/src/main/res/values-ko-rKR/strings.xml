@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">자는 아이 지킴이</string>
+    <string name="action_settings">설정</string>
+    <string name="action_about">자세히</string>
+    <string name="action_question">질문?</string>
+
+    <string name="prompt_target_number">대상 전화번호:</string>
+    <string name="prompt_minimum">예민하게</string>
+    <string name="prompt_maximum">둔하게</string>
+
+    <string name="prompt_sound_sensitivity">탐지 감도 (%d)</string>
+    <string name="prompt_hint_name_or_number">이름 또는 전화번호</string>
+    <string name="prompt_hint_number_only">전화번호</string>
+    <string name="prompt_click_to_test">여길 눌러서 테스트 하세요.</string>
+    <string name="prompt_click_to_stop">여길 눌러서 테스트를 종료 하세요.</string>
+    <string name="prompt_in_detect_mode">주변 소리를 듣는 중...</string>
+
+    <string name="error_no_target_number">전화번호가 비었어요!</string>
+    <string name="error_wrong_target_number">전화번호 형식이 틀렸어요. 다시 확인해보세요.</string>
+
+
+    <string name="notification_title">자는 아이 지킴이</string>
+    <string name="notification_msg">자는 아이 지킴이가 실행중입니다...</string> <!-- &#8230; -->
+
+    <string name="about_title">자는 아이 지킴이에 대해</string>
+    <string name="about_msg">자는 아이 지팀이는 주변의 소리를 감지하면서 큰 소리가 발생한 경우 대장 전화번호로 전화를 걸어줍니다. 부모님에게 짧은 시간동안 다른 일을 해줄 수 있기를 바라는 마음으로 만들었습니다.\n\n** 꼭 기억하세요!!! **\n이 앱은 완벽하지 않습니다! 혹시나 발생할 수 있는 사고에 대해서는 절대 책임지지 않습니다.\n\n아시겠죠?</string>
+
+    <string name="sms_warning_unexpected_stop">[자는아이지킴이]\n**경고**\n자는 아이 지킴이가 의도치않게 종료되었습니다!!</string>
+    <string name="sms_warning_paused">[자는아이지킴이]\n자는아이지킴이가 일시정지 되었습니다.</string>
+    <string name="sms_warning_paused_by_call">[자는아이지킴이]\n휴대폰에 전화가 오고 있어서 일시정지 되었습니다.</string>
+    <string name="sms_warning_resumed">[자는아이지킴이]\n자는아이지킴이가 다시 시작되었습니다.</string>
+    <string name="warning_not_silent_mode">주의하세요! 휴대폰이 방해금지 모드가 아닙니다.</string>
+
+    <string name="need_dnd_permission_title">권한 필요</string>
+    <string name="need_dnd_permission_msg">자는 아이 지킴이는 \"방해금지\" 모드가 필요합니다. 탐지 모드일 때 무음 모드로 설정하여 방해받지 않도록 설정합니다. 확인을 누르시면 설정 화면으로 이동합니다.\n\n진행하시겠습니까?</string>
+    <string name="without_dnd_permission_title">권한 누락 주의!</string>
+    <string name="without_dnd_permission_msg">방해금지 모드는 \"설정\" 화면에 링크를 따라 들어가시면 나중에 설정을 직접 변경하실 수 있습니다.</string>
+
+    <!-- Strings related to Settings -->
+    <string name="pref_enable_unexpected_finish_warning_title">비정상적인 종료 경고</string>
+    <string name="pref_enable_unexpected_finish_warning_desc">비정상적으로 종료된 경우 대상 전화번호로 경고 문자를 보냅니다.\n(예. 일시정지가 오래 경과된 경우)</string>
+    <string name="pref_dnd_link_title">방해금지 설정 변경</string>
+    <string name="pref_dnd_link_desc">이 앱은 \"방해금지\" 설정이 필요합니다.\n해당 화면으로 이동 하시려면 터치</string>
+    <string name="pref_sms_cmd_title">문자 명령 사용</string>
+    <string name="pref_sms_cmd_desc">지정한 명령 코드를 문자로 보내면 문자를 보낸 휴대폰으로 전화를 겁니다.</string>
+    <string name="pref_cur_sms_cmd">현재 코드 : [%s]</string>
+    <string name="pref_no_cur_sms_cmd">현재 코드 : 없음</string>
+    <string name="pref_label_sms_cmd">명령 코드</string>
+    <string name="pref_sms_notification_title">문자 알림</string>
+    <string name="pref_sms_notification_summary">감지기의 모든 일시정지나 재실행 상태를 대상 전화번호로 문자를 보냅니다.</string>
+
+    <string-array name="pref_sure_to_disable_warning_titles">
+        <item>정말로요?</item>
+        <item>진짜로요?</item>
+        <item>확실해요?</item>
+        <item>잘 생각해봐요.</item>
+        <item>다시 생각해봐요.</item>
+        <item>곰곰히 생각해봐요.</item>
+        <item>심각하게 고민해봐요.</item>
+        <item>아주 심각하게 고민해봐요.</item>
+        <item>아주 아주 심각하게 고민해봐요.</item>
+        <item>사실은</item>
+        <item>이제부터</item>
+    </string-array>
+    <string-array name="pref_sure_to_disable_warning_msgs">
+        <item>진짜로 이 경고 기능을 끄시겠어요?</item>
+        <item>진짜 진짜 진짜로 이 경고 기능을 끄시겠어요?</item>
+        <item>이 경고 기능을 끄는 것에 대해서 확실하세요?</item>
+        <item>이 경고 기능은 참 좋은 기능이에요. 정말로 끌꺼에요?</item>
+        <item>혹시라도 꺼졌는데 모르고 있다면 문제가 될텐데 정말로 끌꺼에요?</item>
+        <item>잘 돌아가고 있을 거라고 기대하고 있는데 만약 꺼져 있었다면... 어흑... 그래도 이 기능을 끌꺼에요?</item>
+        <item>앱이라는 것이 원래 완벽한게 아니라서 개발자가 생각하는 대로 흘러가지 않아요... 만약 꺼졌는데도 모르고 있었다면... 그래도 이 기능을 끌꺼에요?</item>
+        <item>개발자를 믿어주시는 건 정말 고맙지만 신이 아니랍니다. 이 기능을 끄지 말아주세요. 그래도 끄실껀가요?</item>
+        <item>이렇게 까지 했는데도 계속 끄려고 하는 의도가 뭐죠? 이렇게 싹싹 비는데...</item>
+        <item>이쯤되면 예상하셨겠지만, 이 기능을 끌 수가 없습니다. 스위치는 그냥 만들어 놓은 거에요. 재밌으라고...</item>
+        <item>이런 메시지는 반복합니다. 더 이상 눌러봤자 새로운 메시지는 없어요. 수고하셨습니다.</item>
+    </string-array>
+
+    <string-array name="questions">
+        <item>어떤 모르는 이유로 감지 모드가 멈추면 어떻게 되나요?</item>
+        <item>감지 모드중에 앱이 설치된 휴대폰으로 전화가 오면 어떻게 되나요?</item>
+        <item>설정에 \"문자 명령\" 기능이 뭔가요?</item>
+        <item>대상 전화번호가 외부로 노출이 되나요?</item>
+        <item>종종 앱이 잘 돌아가고 있는 지 걱정이 되는데, 확인할 방법이 있을까요?</item>
+    </string-array>
+    <string-array name="answers">
+        <item>설정 화면에 \"비정상적인 종료 경고\" 기능이 켜져 있는 경우, 대상 전화번호로 상황을 문자로 보내드립니다.</item>
+        <item>전화로 인해 일시정지를 하게 됩니다. 물론 받으시는 분이 없을테니까 (물론 자동으로 받는 기능도 없습니다) 전화가 종료되면 자는아이지킴이는 자동으로 감지 모드를 자동으로 실행합니다. 설정에 \"문자 알림\" 기능이 켜져 있으면 이 상황들을 대상 전화번호에서 문자로 받으실 수 있습니다. 또한 너무 오랫동안 일시정지 상태가 되면 자동으로 감지모드가 종료되며, \"비정상적인 종료 경고\" 옵션이 켜져있는 경우 해당 상황이 대상 전화번호로 문자로 알려집니다.</item>
+        <item>이 기능은 자는아이지킴이가 일시적으로 전화를 걸게끔 명령하는 것입니다. 기능을 켤 때 입력한 (12자 이하) 명령 코드를 감지가 실행중일 때 문자로 받게되면 문자를 보낸 전화로 전화를 시도합니다. 전화를 받아서 상황을 확인하고, 전화를 끊으면 자는아이지킴이는 자동으로 감지를 재시작합니다.</item>
+        <item>자는아이지킴이는 앱의 몇몇 동작 상황을 외부 서버에 기록을 하고 있지만 개인정보는 절대로 저장하지 않습니다. 앞으로도 그럴 예정이 절대로 없구요.</item>
+        <item>\"문자 명령\" 기능을 이용해 보시는 것도 방법입니다. 이 기능이 켜져 있을 때, 명령 문자를 받게 되면 전화를 하게 됩니다. 만약 문자를 보냈는데 전화가 안온다면 실행중이 아닐 확률이 아주 높아요.</item>
+    </string-array>
+
+    <string-array name="tutorial_texts">
+        <item>전화받을 분의 전화번호 또는 (권한이 있는 경우) 이름을 입력후 목록에서 선택하여 전화번호를 입력하세요.</item>
+        <item>이 슬라이더로 주변 소리에 대한 민감도를 조절할 수 있습니다.</item>
+        <item>민감도를 확인하시려면 이 아이콘을 눌러 테스트 모드로 진행하세요. 테스트 중에는 감지가 발생한 경우 바로 아실 수 있습니다. 적용된 민감도는 실제 탐지중에도 동일하게 설정됩니다.</item>
+        <item>이 버튼을 눌러 실제 탐지를 시작하세요. 화면이 어두워지고, 중지 버튼이 화면 반대편에서 나타납니다.</item>
+        <item>이 버튼을 눌러 탐지를 중지하세요. 화면은 이전 상태로 되돌아 갑니다.</item>
+        <item>탐지 중, 만약 충전 중이 아니라면 이런 아이콘이 나옵니다. 탐지 모드로 들어갈 때는 충전 하시기를 추천합니다.</item>
+        <item>여기를 누르시면 더 많은 정보를 얻으실 수 있습니다.</item>
+    </string-array>
+
+    <string name="click_to_setting">\n\n\"설정\" 화면을 보려면 여기를 터치하세요.</string>
+
+    <string name="please_wait_for_ad">잠시만요...</string>
+
+    <string name="tutorial_continue">\n\n아무 곳이나 눌러서 계속...</string>
+    <string name="tutorial_finish">\n\n아무 곳이나 눌러서 종료.</string>
+</resources>

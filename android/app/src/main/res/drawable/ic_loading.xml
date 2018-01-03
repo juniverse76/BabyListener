@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+                 xmlns:aapt="http://schemas.android.com/aapt">
+
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="48dp"
+            android:height="48dp"
+            android:viewportHeight="600"
+            android:viewportWidth="600">
+
+            <!--<path android:fillColor="#000" android:pathData="M0,0 h600 v600 h-600 z"/>-->
+
+            <!--
+            <path
+                android:pathData="M300,300 m0,-250 a250,250 0 0,1 0,500  a250,250 0 0,1 0,-500 "
+                android:strokeColor="#fff"
+                android:strokeWidth="50"/>
+            <group
+                android:name="rotate"
+                android:rotation="0"
+                android:pivotX="300"
+                android:pivotY="300">
+
+                <path
+                    android:name="tick"
+                    android:pathData="M300,300 m0,-250 a250,250 0 0,1 0,500  a250,250 0 0,1 0,-500 "
+                    android:strokeColor="#f00"
+                    android:strokeWidth="50"
+                    android:trimPathEnd="1"
+                    android:trimPathStart="0"/>
+            </group>
+            -->
+            <path
+                android:name="dot1"
+                android:fillAlpha="0.1"
+                android:fillColor="#fff"
+                android:pathData="M300,300 m0,-250 a50,50 0 0,1 0,100  a50,50 0 0,1 0,-100 "/>
+
+            <group
+                android:pivotX="300"
+                android:pivotY="300"
+                android:rotation="51.43">
+                <path
+                    android:name="dot2"
+                    android:fillAlpha="0.1"
+                    android:fillColor="#fff"
+                    android:pathData="M300,300 m0,-250 a50,50 0 0,1 0,100  a50,50 0 0,1 0,-100 "/>
+            </group>
+
+            <group
+                android:pivotX="300"
+                android:pivotY="300"
+                android:rotation="102.86">
+                <path
+                    android:name="dot3"
+                    android:fillAlpha="0.1"
+                    android:fillColor="#fff"
+                    android:pathData="M300,300 m0,-250 a50,50 0 0,1 0,100  a50,50 0 0,1 0,-100 "/>
+            </group>
+
+            <group
+                android:pivotX="300"
+                android:pivotY="300"
+                android:rotation="154.29">
+                <path
+                    android:name="dot4"
+                    android:fillAlpha="0.1"
+                    android:fillColor="#fff"
+                    android:pathData="M300,300 m0,-250 a50,50 0 0,1 0,100  a50,50 0 0,1 0,-100 "/>
+            </group>
+
+            <group
+                android:pivotX="300"
+                android:pivotY="300"
+                android:rotation="205.72">
+                <path
+                    android:name="dot5"
+                    android:fillAlpha="0.1"
+                    android:fillColor="#fff"
+                    android:pathData="M300,300 m0,-250 a50,50 0 0,1 0,100  a50,50 0 0,1 0,-100 "/>
+            </group>
+
+            <group
+                android:pivotX="300"
+                android:pivotY="300"
+                android:rotation="257.15">
+                <path
+                    android:name="dot6"
+                    android:fillAlpha="0.1"
+                    android:fillColor="#fff"
+                    android:pathData="M300,300 m0,-250 a50,50 0 0,1 0,100  a50,50 0 0,1 0,-100 "/>
+            </group>
+
+            <group
+                android:pivotX="300"
+                android:pivotY="300"
+                android:rotation="308.58">
+                <path
+                    android:name="dot7"
+                    android:fillAlpha="0.1"
+                    android:fillColor="#fff"
+                    android:pathData="M300,300 m0,-250 a50,50 0 0,1 0,100  a50,50 0 0,1 0,-100 "/>
+            </group>
+        </vector>
+    </aapt:attr>
+
+    <target android:name="dot1">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="1200"
+                android:propertyName="fillAlpha"
+                android:repeatCount="-1"
+                android:repeatMode="restart"
+                android:valueFrom="1"
+                android:valueTo="0.1"
+                android:valueType="floatType"/>
+        </aapt:attr>
+    </target>
+
+    <target android:name="dot2">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="1200"
+                android:propertyName="fillAlpha"
+                android:repeatCount="-1"
+                android:repeatMode="restart"
+                android:startOffset="200"
+                android:valueFrom="1"
+                android:valueTo="0.1"
+                android:valueType="floatType"/>
+        </aapt:attr>
+    </target>
+    <target android:name="dot3">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="1200"
+                android:propertyName="fillAlpha"
+                android:repeatCount="-1"
+                android:repeatMode="restart"
+                android:startOffset="400"
+                android:valueFrom="1"
+                android:valueTo="0.1"
+                android:valueType="floatType"/>
+        </aapt:attr>
+    </target>
+    <target android:name="dot4">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="1200"
+                android:propertyName="fillAlpha"
+                android:repeatCount="-1"
+                android:repeatMode="restart"
+                android:startOffset="600"
+                android:valueFrom="1"
+                android:valueTo="0.1"
+                android:valueType="floatType"/>
+        </aapt:attr>
+    </target>
+    <target android:name="dot5">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="1200"
+                android:propertyName="fillAlpha"
+                android:repeatCount="-1"
+                android:repeatMode="restart"
+                android:startOffset="800"
+                android:valueFrom="1"
+                android:valueTo="0.1"
+                android:valueType="floatType"/>
+        </aapt:attr>
+    </target>
+    <target android:name="dot6">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="1200"
+                android:propertyName="fillAlpha"
+                android:repeatCount="-1"
+                android:repeatMode="restart"
+                android:startOffset="1000"
+                android:valueFrom="1"
+                android:valueTo="0.1"
+                android:valueType="floatType"/>
+        </aapt:attr>
+    </target>
+    <target android:name="dot7">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="1200"
+                android:propertyName="fillAlpha"
+                android:repeatCount="-1"
+                android:repeatMode="restart"
+                android:startOffset="1200"
+                android:valueFrom="1"
+                android:valueTo="0.1"
+                android:valueType="floatType"/>
+        </aapt:attr>
+    </target>
+</animated-vector>

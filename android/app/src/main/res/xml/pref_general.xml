@@ -1,0 +1,26 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:key="key.enable.unexp.warning"
+        android:summary="@string/pref_enable_unexpected_finish_warning_desc"
+        android:title="@string/pref_enable_unexpected_finish_warning_title"/>
+
+    <!--
+    <SwitchPreference
+        android:key="key.enable.warning"
+        android:defaultValue="true"
+        android:summary="@string/pref_enable_non_start_warning_desc"
+        android:title="@string/pref_enable_non_start_warning_title"/>
+        -->
+
+    <SwitchPreference
+        android:key="key.sms.call.cmd.delegate"
+        android:summary="@string/pref_sms_cmd_desc"
+        android:title="@string/pref_sms_cmd_title"/>
+
+    <SwitchPreference
+        android:key="key.sms.all.noti"
+        android:summary="@string/pref_sms_notification_summary"
+        android:title="@string/pref_sms_notification_title"/>
+
+</PreferenceScreen>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+                 xmlns:aapt="http://schemas.android.com/aapt">
+
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="128dp"
+            android:height="128dp"
+            android:viewportHeight="600"
+            android:viewportWidth="600">
+
+            <!--
+            <path
+                android:fillColor="#000"
+                android:pathData="M0,0 h600 v600 h-600 v-600"/>
+                -->
+
+            <group
+                android:name="exclamation_group"
+                android:pivotX="300"
+                android:pivotY="800"
+                android:scaleX="0.6"
+                android:scaleY="0.6">
+
+                <path
+                    android:fillColor="#f00"
+                    android:pathData="M200,100 h200 l20,-600 h-240 l20,600"/>
+
+                <path
+                    android:fillColor="#f00"
+                    android:pathData="M300,300 m-100,0 a100,100 0 0,1 200,0  a100,100 0 0,1 -200,0 z"/>
+            </group>
+        </vector>
+    </aapt:attr>
+
+    <target android:name="exclamation_group">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together" android:interpolator="@android:anim/accelerate_interpolator">
+                <objectAnimator
+                    android:duration="200"
+                    android:propertyName="pivotY"
+                    android:valueFrom="300"
+                    android:valueTo="800"
+                    android:valueType="intType"/>
+                <objectAnimator
+                    android:duration="200"
+                    android:propertyName="scaleX"
+                    android:valueFrom="1"
+                    android:valueTo="0.6"
+                    android:valueType="floatType"/>
+                <objectAnimator
+                    android:duration="200"
+                    android:propertyName="scaleY"
+                    android:valueFrom="1"
+                    android:valueTo="0.6"
+                    android:valueType="floatType"/>
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>
