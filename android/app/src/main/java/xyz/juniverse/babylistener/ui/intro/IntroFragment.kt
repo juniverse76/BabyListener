@@ -15,6 +15,8 @@ import xyz.juniverse.babylistener.etc.console
  */
 open class IntroFragment : Fragment(), View.OnClickListener {
     companion object {
+        val TAG = "intro.frag.tag"
+
         private val ARG_FRAG_VIEW_ID = "frag.view.id"
         fun create(viewId: Int): IntroFragment {
             val fragment = when (viewId) {
@@ -51,7 +53,7 @@ open class IntroFragment : Fragment(), View.OnClickListener {
         fragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
                 .addToBackStack("")
-                .replace(R.id.fragment_holder, fragment)
+                .replace(R.id.fragment_holder, fragment, TAG)
                 .commit()
     }
 
@@ -71,5 +73,9 @@ open class IntroFragment : Fragment(), View.OnClickListener {
         moveFragmentMap[view.id]?.let { viewId ->
             startFragment(create(viewId))
         }
+    }
+
+    open fun onBackPressed(): Boolean {
+        return false
     }
 }

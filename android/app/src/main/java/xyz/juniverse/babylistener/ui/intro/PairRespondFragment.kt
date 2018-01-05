@@ -27,6 +27,9 @@ class PairRespondFragment : IntroFragment() {
                 console.d("success!!!!")
                 // todo clear all back stack...
                 startFragment(IntroFragment.create(R.layout.frag_final_intro))
+            } else {
+                console.e("failed...")
+                // todo notify user
             }
         })
 

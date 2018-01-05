@@ -10,10 +10,10 @@ import java.util.*
  * Created by juniverse on 03/01/2018.
  *
  * todo
- * 'uid' : {
- *      'code' : '4532'
+ * 'code' : {
+ *      'reqId' : '$uid'
  *      'time' : 123456
- *      'ack' : '$uid'
+ *      'ackId' : '$uid'
  * }
  */
 class DevicePairing {
@@ -30,41 +30,21 @@ class DevicePairing {
         val TIMEOUT = -2
     }
 
-    private data class PairingData(val code: String = "", val time: Long = 0, var ack: String? = null)
+    private data class PairingData(val reqId: String = "", val time: Long = 0, var ackId: String? = null)
 
 
-    private val maxWaitTime: Long = 3 * 60 * 1000      // 3 minutes
+//    private val maxWaitTime: Long = 3 * 60 * 1000      // 3 minutes
+    private val maxWaitTime: Long = 30 * 1000      // 30 seconds
     private val pairDbRef
         get() = FirebaseDatabase.getInstance().getReference(DB.Table.pair)
+
 
 
     fun registerTest() {
         val currentUser = FirebaseAuth.getInstance().currentUser ?: return
 
         console.d("I am ", currentUser.uid)
-//        pairDbRef.addChildEventListener(object: ChildEventListener{
-//            override fun onCancelled(error: DatabaseError?) {
-//                console.d("test onCancelled", error)
-//            }
-//
-//            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-//                console.d("test onChildMoved", snapshot, previousChildName)
-//            }
-//
-//            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-//                console.d("test onChildChanged", snapshot, previousChildName)
-//            }
-//
-//            override fun onChildAdded(snapshot: DataSnapshot, childName: String?) {
-//                console.d("test onChildAdded", snapshot, childName)
-//            }
-//
-//            override fun onChildRemoved(snapshot: DataSnapshot) {
-//                console.d("test onChildRemoved", snapshot)
-//            }
-//        })
-
-        pairDbRef.addValueEventListener(object: ValueEventListener{
+        pairDbRef.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError?) {
                 console.d("value event onCancelled", error)
             }
@@ -80,82 +60,54 @@ class DevicePairing {
                 }
             }
         })
-
-//        console.d("adding pairing request..")
-//        pairDbRef.child("888888").setValue(PairingData(currentUser.uid, Date().time))
     }
 
-    private var responseListener: ValueEventListener? = null
-    fun registerPairRequest(complete: (Boolean) -> Unit): String? {
-        val currentUser = FirebaseAuth.getInstance().currentUser ?: return null
+
+
+
+    fun registerPairRequest(onResult: (String?) -> Unit) {
+        val currentUser = FirebaseAuth.getInstance().currentUser ?: return onResult(null)
 
         console.d("making request")
 
-        // make a 4 digit random code and add request. still possible with same code.. at least use user id as seed.
-        var codeOffset = currentUser.uid.hashCode() % 200000
-        if (codeOffset < 0)
-            codeOffset += 200000
-//        console.d("codeOffset?", codeOffset)
-
-        // seed as user id, must be 6 digits, even offset by time
-        val code = (Random(System.currentTimeMillis()).nextInt(700000) + 100000 + codeOffset).toString()
-
-        console.d("writing something....", code, currentUser.uid)
-        val pairReqRef = pairDbRef.child(currentUser.uid)
-        pairReqRef.setValue(PairingData(code, Date().time))
-
-        if (responseListener == null) {
-            responseListener = object : ValueEventListener {
-                override fun onCancelled(databaseError: DatabaseError) {
-                    // just in case
-                    console.d("onCancelled", databaseError)
-                    pairReqRef.removeEventListener(this)
-                }
-
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    console.d("onDataChange", dataSnapshot)
-
-                    val pairingData = dataSnapshot.getValue(PairingData::class.java)
-                    if (pairingData == null) {
-                        // this is when it's canceled
-                        pairReqRef.removeEventListener(this)
-                        complete(false)
-                        return
-                    }
-
-                    // this isn't error... it's just the result of me adding...
-                    val ackId = pairingData.ack ?: return
-
-                    console.d("answered!!! key?", dataSnapshot.key)
-                    console.d("pairingData?", pairingData)
-
-                    // save
-                    savePartnerId(ackId)
-
-                    // remove listener
-                    pairReqRef.removeEventListener(this)
-
-                    // remove registration
-                    unregisterPairRequest(currentUser.uid)
-
-                    complete(true)
-                }
+        pairDbRef.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError?) {
+                console.d("onCancelled", error)
             }
-            pairReqRef.addValueEventListener(responseListener)
-        }
+            override fun onDataChange(snapshot: DataSnapshot) {
+                console.d("value event onDataChange", snapshot)
+                var code: String
+                do {
+                    code = (Random().nextInt(899999) + 100000).toString()
+                } while (snapshot.children.any { it.key == code })
 
-        return code
+                console.d("adding pairing request..")
+                pairDbRef.child(code).setValue(PairingData(currentUser.uid, Date().time))
+
+                onResult(code)
+            }
+        })
     }
 
-    fun cancelWaitingForAck() {
-        val currentUser = FirebaseAuth.getInstance().currentUser ?: return
-        pairDbRef.child(currentUser.uid).removeEventListener(responseListener)
+
+    fun cancelWaitingForAck(code: String?) {
+        if (code == null) return
+
+        console.d("cancelWaitingForAck")
+        cancelTimer?.cancel()
+        pairDbRef.child(code).removeEventListener(acknowledgeListener)
+        pairDbRef.child(code).removeValue()
+        acknowledgeListener = null
     }
 
+    // wait for that code to change. if false, timeout
+    private var acknowledgeListener: ValueEventListener? = null
+    private var cancelTimer: Timer? = null
+    fun waitForAcknowledge(code: String, onResult: (Boolean) -> Unit) {
+        if (acknowledgeListener != null) return
 
-    private fun waitForRequestAck(uid: String) {
-        val codeDatRef = pairDbRef.child(uid)
-        codeDatRef.addValueEventListener(object : ValueEventListener {
+        val codeDatRef = pairDbRef.child(code)
+        acknowledgeListener = object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError) {
                 // just in case
                 console.d("onCancelled", databaseError)
@@ -167,12 +119,12 @@ class DevicePairing {
 
                 val pairingData = dataSnapshot.getValue(PairingData::class.java)
                 if (pairingData == null) {
-                    // this is when it's canceled
-                    codeDatRef.removeEventListener(this)
+                    // this is when it's canceled.. though this probably won't happen
+                    cancelWaitingForAck(code)
                     return
                 }
 
-                val ackId = pairingData.ack ?: return
+                val ackId = pairingData.ackId ?: return
 
                 console.d("answered!!! key?", dataSnapshot.key)
                 console.d("pairingData?", pairingData)
@@ -181,56 +133,54 @@ class DevicePairing {
                 savePartnerId(ackId)
 
                 // remove listener
-                codeDatRef.removeEventListener(this)
+                cancelWaitingForAck(code)
 
-                // remove registration
-                unregisterPairRequest(uid)
+                onResult(true)
             }
-        })
+        }
+        codeDatRef.addValueEventListener(acknowledgeListener)
+
+        cancelTimer = Timer()
+        cancelTimer?.schedule(object: TimerTask() {
+            override fun run() {
+                cancelWaitingForAck(code)
+                onResult(false)
+            }
+        }, maxWaitTime)
     }
 
-    fun unregisterPairRequest(uid: String) {
-        pairDbRef.child(uid).removeValue()
-    }
 
 
-    // ============ for ack ==============
+
+
+
+    // ============ for ackId ==============
     fun acknowledgePairing(code: String, complete: (Int) -> Unit): Boolean {
         val currentUser = FirebaseAuth.getInstance().currentUser ?: return false
 
-        val query = pairDbRef.orderByChild("code").equalTo(code)
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(databaseError: DatabaseError) {}
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                console.d("dataSnapshot.exists?", dataSnapshot.exists())
-                if (!dataSnapshot.exists()) {
+        pairDbRef.child(code).addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onCancelled(error: DatabaseError?) {
+                console.e("acknowledge error?", error)
+            }
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val pairingData = snapshot.getValue(PairingData::class.java)
+                if (pairingData == null) {
+                    // todo possibly removed by timeout
                     complete(UNKNOWN_CODE)
                     return
                 }
 
-                console.d("dataSnapshot.children", dataSnapshot.children.count())
-                for (pairReq in dataSnapshot.children) {
-                    console.d("pairReq:", pairReq)
-                    val pairingData = pairReq.getValue(PairingData::class.java)
-
-                    if (pairingData == null) {
-                        complete(UNKNOWN_CODE)
-                        return
-                    }
-
-                    if (Date().time - pairingData.time > maxWaitTime) {
-                        complete(TIMEOUT)
-                        return
-                    }
-
-                    pairingData.ack = currentUser.uid
-                    pairDbRef.child(pairReq.key).setValue(pairingData)
-
-                    savePartnerId(pairReq.key)
-
-                    complete(SUCCESS)
+                if (Date().time - pairingData.time > maxWaitTime) {
+                    complete(TIMEOUT)
                     return
                 }
+
+                pairingData.ackId = currentUser.uid
+                pairDbRef.child(code).setValue(pairingData)
+
+                complete(SUCCESS)
+
+                savePartnerId(pairingData.reqId)
             }
         })
 
@@ -245,7 +195,8 @@ class DevicePairing {
 
     private fun savePartnerId(partnerId: String) {
         // todo after math
-        Pref.putString(Pref.partnerId, partnerId)
+        console.d("I am", FirebaseAuth.getInstance().currentUser?.uid, "and my partner is", partnerId)
+//        Pref.putString(Pref.partnerId, partnerId)
     }
 
     fun checkPartnerId(result: (Boolean) -> Unit) {

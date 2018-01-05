@@ -115,20 +115,25 @@ class GateActivity : AppCompatActivity() {
     private fun showWelcomeUi() {
         setContentView(R.layout.activity_intro)
 
-//        supportFragmentManager.beginTransaction().add(R.id.fragment_holder, IntroFragment.create(R.layout.frag_welcome)).commit()
+        supportFragmentManager.beginTransaction().add(R.id.fragment_holder, IntroFragment.create(R.layout.frag_welcome), IntroFragment.TAG).commit()
 
-        val dateFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val date = dateFormatter.parse("2018-01-05 11:15:00")
-        val timer = Timer()
-        timer.schedule(object: TimerTask() {
-            override fun run() {
-                DevicePairing.getInstance().registerTest()
-            }
-        }, date)
+//        val dateFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+//        val date = dateFormatter.parse("2018-01-05 11:48:10")
+//        val timer = Timer()
+//        timer.schedule(object: TimerTask() {
+//            override fun run() {
+//                DevicePairing.getInstance().registerTest()
+//            }
+//        }, date)
 
     }
 
-
+    override fun onBackPressed() {
+        val frag = supportFragmentManager.findFragmentByTag(IntroFragment.TAG) as? IntroFragment
+        // none or didn't process back button
+        if (frag == null || !frag.onBackPressed())
+            super.onBackPressed()
+    }
 
     private fun startPairModeActivity() {
     }
