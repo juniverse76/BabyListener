@@ -63,7 +63,7 @@ class SettingsActivity : AppCompatActivity() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
-            val pref = Pref(activity.baseContext)
+//            val pref = Pref(activity.baseContext)
 //            pref.remove(Pref.smsCallCmd)
 
             addPreferencesFromResource(R.xml.pref_general)
@@ -79,7 +79,7 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             // sms command
-            val cmd = pref.getString(Pref.smsCallCmd)
+            val cmd = Pref.getString(Pref.smsCallCmd)
             val cmdOpt = findPreference(Pref.smsCallCmd + ".delegate") as SwitchPreference
             cmdOpt.isChecked = cmd != null
             if (cmdOpt.isChecked)
@@ -98,7 +98,7 @@ class SettingsActivity : AppCompatActivity() {
                     }
                 } else {
                     cmdOpt.summary = getString(R.string.pref_sms_cmd_desc) + "\n" + getString(R.string.pref_no_cur_sms_cmd)
-                    pref.remove(Pref.smsCallCmd)
+                    Pref.remove(Pref.smsCallCmd)
                     cmdOpt.isChecked = checked
                 }
                 false
@@ -131,7 +131,7 @@ class SettingsActivity : AppCompatActivity() {
 
         private fun showSmsCmdEditPopup() {
             val cmdOpt = findPreference(Pref.smsCallCmd + ".delegate") as SwitchPreference
-            val lastCmd = Pref(activity.baseContext).getString(Pref.lastSmsCallCmd)
+            val lastCmd = Pref.getString(Pref.lastSmsCallCmd)
             val input = EditText(activity.baseContext)
             input.text = lastCmd as Editable
             AlertDialog.Builder(activity)
@@ -141,8 +141,8 @@ class SettingsActivity : AppCompatActivity() {
                         val code = input.text.trim().toString()
                         if (code.isNotEmpty()) {
                             cmdOpt.summary = getString(R.string.pref_sms_cmd_desc) + "\n" + getString(R.string.pref_cur_sms_cmd, code)
-                            Pref(activity.baseContext).putString(Pref.smsCallCmd, code)
-                            Pref(activity.baseContext).putString(Pref.lastSmsCallCmd, code)
+                            Pref.putString(Pref.smsCallCmd, code)
+                            Pref.putString(Pref.lastSmsCallCmd, code)
                             cmdOpt.isChecked = true
                         }
                     })
@@ -156,11 +156,11 @@ class SettingsActivity : AppCompatActivity() {
             else if (requestCode == reqCodeSendSMSPermission && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 val warningOpt = findPreference(Pref.enableUnexpWarningSMS) as SwitchPreference
                 warningOpt.isChecked = true
-                Pref(activity.baseContext).putBool(Pref.enableUnexpWarningSMS, true)
+                Pref.putBool(Pref.enableUnexpWarningSMS, true)
             } else if (requestCode == reqCodeSendSMSPermission2 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 val smsOpt = findPreference(Pref.smsAllNoti) as SwitchPreference
                 smsOpt.isChecked = true
-                Pref(activity.baseContext).putBool(Pref.smsAllNoti, true)
+                Pref.putBool(Pref.smsAllNoti, true)
             }
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }

@@ -14,7 +14,7 @@
         android:textSize="16sp"/>
 
     <TextView
-        android:id="@+id/number"
+        android:id="@+id/code"
         android:layout_marginStart="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

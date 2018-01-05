@@ -15,6 +15,7 @@ import android.telephony.TelephonyManager
 import xyz.juniverse.babylistener.R
 import xyz.juniverse.babylistener.MainActivity
 import xyz.juniverse.babylistener.etc.*
+import xyz.juniverse.babylistener.firebase.Report
 
 
 class DetectionService : Service() {
@@ -88,7 +89,7 @@ class DetectionService : Service() {
 
                     // stop was not expected!!! notify user....
                     if (state == Detector.State.STOPPED) {
-                        val byUser = Pref(baseContext).getBool(Pref.stoppedByUser)
+                        val byUser = Pref.getBool(Pref.stoppedByUser)
                         if (!byUser)
                             SmsManager.getDefault().sendTextMessage(targetNumber, null, getString(R.string.sms_warning_unexpected_stop), null, null)
                         Report.event(baseContext, Report.E.DETECTION_STOP, arrayOf(Pair("by_user", byUser.toString())))
@@ -133,14 +134,14 @@ class DetectionService : Service() {
                 console.d("is idle. should resume")
                 // restarting... remove warning.
                 inManualCallMode = false
-                if (detector.resume() && Pref(baseContext).getBool(Pref.smsAllNoti))
+                if (detector.resume() && Pref.getBool(Pref.smsAllNoti))
                     SmsManager.getDefault().sendTextMessage(targetNumber, null, getString(R.string.sms_warning_resumed), null, null)
             } else {
                 console.d("is NOT idle!!!")
                 if (!inManualCallMode) {
                     // detector didn't make the call... incoming call!!! pause it for now...
                     detector.pause()
-                    if (Pref(baseContext).getBool(Pref.smsAllNoti))
+                    if (Pref.getBool(Pref.smsAllNoti))
                         SmsManager.getDefault().sendTextMessage(targetNumber, null, getString(R.string.sms_warning_paused_by_call), null, null)
                 }
             }

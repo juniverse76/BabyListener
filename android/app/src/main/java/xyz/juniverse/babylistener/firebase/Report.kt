@@ -1,9 +1,10 @@
-package xyz.juniverse.babylistener.etc
+package xyz.juniverse.babylistener.firebase
 
 import android.content.Context
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
 import xyz.juniverse.babylistener.BuildConfig
+import xyz.juniverse.babylistener.etc.console
 
 /**
  * Created by juniverse on 11/12/2017.

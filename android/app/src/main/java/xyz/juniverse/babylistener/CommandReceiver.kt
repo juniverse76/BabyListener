@@ -17,7 +17,7 @@ class CommandReceiver : BroadcastReceiver() {
 
         if (intent.action != "android.provider.Telephony.SMS_RECEIVED") return
 
-        val cmd = Pref(context).getString(Pref.smsCallCmd) ?: return
+        val cmd = Pref.getString(Pref.smsCallCmd) ?: return
 
         val pdus = intent.extras?.get("pdus") as Array<*>
         val msgs = Array<SmsMessage>(pdus.size, {i -> SmsMessage.createFromPdu(pdus[i] as ByteArray) })

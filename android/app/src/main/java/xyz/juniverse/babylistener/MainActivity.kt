@@ -30,9 +30,9 @@ import com.google.android.gms.ads.MobileAds
 import kotlinx.android.synthetic.main.activity_main.*
 import xyz.juniverse.babylistener.detection.DetectionService
 import xyz.juniverse.babylistener.detection.Detector
-import xyz.juniverse.babylistener.etc.Ad
+import xyz.juniverse.babylistener.firebase.Ad
 import xyz.juniverse.babylistener.etc.Pref
-import xyz.juniverse.babylistener.etc.Report
+import xyz.juniverse.babylistener.firebase.Report
 import xyz.juniverse.babylistener.etc.console
 import java.util.*
 
@@ -47,8 +47,8 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        console.enable = BuildConfig.DEBUG
-        console.TAG = "blblblbl"
+//        console.enable = BuildConfig.DEBUG
+//        console.TAG = "blblblbl"
 
         setContentView(R.layout.activity_main)
 
@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     private fun checkTutorial() {
 //        if (true) return
 
-        if (!Pref(baseContext).getBool(Pref.hideTutorial)) {
+        if (!Pref.getBool(Pref.hideTutorial)) {
             tutorial.visibility = View.VISIBLE
             // view 추가할 때는 text도 추가해야 함!!!
             val views = arrayOf(target_number, sensitivity_wrapper, tester, action_button, action_button, charge_warning, tutorial_helper_setting)
@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                         }
                     },
                     {
-                        Pref(baseContext).e.putBoolean(Pref.hideTutorial, true).apply()
+                        Pref.putBool(Pref.hideTutorial, true)
                         inTutorial = false
                         if (mInterstitialAd.isLoaded && !adShown) {
                             mInterstitialAd.show()
@@ -202,15 +202,14 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     private fun setupInitValues() {
-        val pref = Pref(baseContext)
-        target_number.setText(pref.getString(Pref.phoneNumber))
-        sensitivityValue = pref.getInt(Pref.sensitivity)
+        target_number.setText(Pref.getString(Pref.phoneNumber))
+        sensitivityValue = Pref.getInt(Pref.sensitivity)
         sensitivity.progress = sensitivityValue
         sensitivity_label.text = getString(R.string.prompt_sound_sensitivity, sensitivityValue + Detector.range.first)
     }
 
     private fun saveKeyValues() {
-        with(Pref(baseContext).e, {
+        with(Pref.edit, {
             putString(Pref.phoneNumber, target_number.text.toString())
             putInt(Pref.sensitivity, sensitivityValue)
             apply()
@@ -218,7 +217,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     private fun initialMessage(): Boolean {
-        if (Pref(baseContext).getBool(Pref.init)) {
+        if (Pref.getBool(Pref.init)) {
             showAboutMessage(true)
             return true
         }
@@ -232,7 +231,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                 .setCancelable(!initial)
                 .setPositiveButton(android.R.string.ok, {_, _ ->
                     if (initial) {
-                        Pref(baseContext).putBool(Pref.init, false)
+                        Pref.putBool(Pref.init, false)
                         checkNecessaryPermissions()
                     }
                 })
@@ -301,7 +300,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
             saveKeyValues()
 
-            Pref(baseContext).putBool(Pref.stoppedByUser, false)
+            Pref.putBool(Pref.stoppedByUser, false)
 
             waver_plotter.clear()
 
@@ -316,7 +315,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             val intent = Intent(baseContext, DetectionService::class.java)
 
             // todo need to notify it's stopped by the user...
-            Pref(baseContext).putBool(Pref.stoppedByUser, true)
+            Pref.putBool(Pref.stoppedByUser, true)
 
             stopService(intent)
         }
@@ -556,7 +555,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     private fun askForDNDPermission(): Boolean {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !notificationManager.isNotificationPolicyAccessGranted && !Pref(baseContext).getBool(Pref.DNDWarned)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !notificationManager.isNotificationPolicyAccessGranted && !Pref.getBool(Pref.DNDWarned)) {
             AlertDialog.Builder(this)
                     .setTitle(R.string.need_dnd_permission_title)
                     .setMessage(R.string.need_dnd_permission_msg)
@@ -568,14 +567,14 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                     })
                     .show()
 
-            return Pref(baseContext).getBool(Pref.DNDWarned)
+            return Pref.getBool(Pref.DNDWarned)
         }
         return true
     }
 
     private fun recheckDNDPermission() {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !notificationManager.isNotificationPolicyAccessGranted && !Pref(baseContext).getBool(Pref.DNDWarned)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !notificationManager.isNotificationPolicyAccessGranted && !Pref.getBool(Pref.DNDWarned)) {
             noDNDPermissionWarning()
         } else {
             initializeAd()
@@ -589,7 +588,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                 .setMessage(R.string.without_dnd_permission_msg)
                 .setPositiveButton(android.R.string.ok, null)
                 .setOnDismissListener {
-                    Pref(baseContext).putBool(Pref.DNDWarned, true)
+                    Pref.putBool(Pref.DNDWarned, true)
                     initializeAd()
                     checkTutorial()
                 }

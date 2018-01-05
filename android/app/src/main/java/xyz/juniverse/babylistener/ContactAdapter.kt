@@ -20,7 +20,7 @@ class ContactAdapter(context: Context?, list: ArrayList<MainActivity.Contact>) :
 
         val contact = getItem(position)
         (view.findViewById<TextView>(R.id.name)).text = contact.name
-        (view.findViewById<TextView>(R.id.number)).text = String.format("(%s)", contact.number)
+        (view.findViewById<TextView>(R.id.code)).text = String.format("(%s)", contact.number)
 
         return view
     }

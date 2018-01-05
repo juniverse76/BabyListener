@@ -2,14 +2,15 @@ package xyz.juniverse.babylistener.etc
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import xyz.juniverse.babylistener.detection.Detector
 
 /**
  * Created by juniverse on 04/12/2017.
  */
-class Pref(private val context: Context) {
-    companion object Key {
+class Pref(/*private val context: Context*/) {
+    companion object {
         val enableUnexpWarningSMS = "key.enable.unexp.warning"
 //        val enableWarningSMS = "key.enable.warning"
         val maxPauseTime = "key.wait.for.call.end"
@@ -23,57 +24,43 @@ class Pref(private val context: Context) {
         val smsCallCmd = "key.sms.call.cmd"
         val lastSmsCallCmd = "key.last.sms.call.cmd"
         val smsAllNoti = "key.sms.all.noti"
-    }
 
-    private val p
-        get() = PreferenceManager.getDefaultSharedPreferences(context)
+        val appMode = "key.app.mode"
+        val partnerId = "key.partner.id"
 
-    val e
-        @SuppressLint("CommitPrefEdits")
-        get() = PreferenceManager.getDefaultSharedPreferences(context).edit()
 
-    private val longDefaults = HashMap<String, Long>()
-    private val intDefaults = HashMap<String, Int>()
-    private val stringDefaults = HashMap<String, String>()
-    private val boolDefaults = HashMap<String, Boolean>()
 
-    init {
-        longDefaults.put(maxPauseTime, 60 * 1000)
 
-        intDefaults.put(sensitivity, Detector.defaultValue)
 
-        boolDefaults.put(init, true)
-    }
 
-    fun reset() {
-        e.clear().apply()
-    }
+        private lateinit var p: SharedPreferences
+        val edit
+            get() = p.edit()
 
-    fun remove(key: String) {
-        e.remove(key).apply()
-    }
+        private val longDefaults = HashMap<String, Long>()
+        private val intDefaults = HashMap<String, Int>()
+        private val stringDefaults = HashMap<String, String>()
+        private val boolDefaults = HashMap<String, Boolean>()
 
-    fun getLong(key: String): Long {
-        return p.getLong(key, longDefaults[key] ?: 0)
-    }
+        init {
+            longDefaults.put(maxPauseTime, 60 * 1000)
+            intDefaults.put(sensitivity, Detector.defaultValue)
+            boolDefaults.put(init, true)
+        }
 
-    fun getInt(key: String): Int {
-        return p.getInt(key, intDefaults[key] ?: 0)
-    }
+        fun setContext(context: Context) {
+            p = PreferenceManager.getDefaultSharedPreferences(context)
+        }
 
-    fun getString(key: String): String? {
-        return p.getString(key, stringDefaults[key])
-    }
+        fun getLong(key: String): Long = p.getLong(key, longDefaults[key] ?: 0)
+        fun getInt(key: String): Int = p.getInt(key, intDefaults[key] ?: 0)
+        fun getString(key: String): String? = p.getString(key, stringDefaults[key])
+        fun getBool(key: String): Boolean = p.getBoolean(key, boolDefaults[key] ?: false)
 
-    fun getBool(key: String): Boolean {
-        return p.getBoolean(key, boolDefaults[key] ?: false)
-    }
+        fun putString(key: String, value: String) = p.edit().putString(key, value).apply()
+        fun putBool(key: String, value: Boolean) = p.edit().putBoolean(key, value).apply()
 
-    fun putString(key: String, value: String) {
-        e.putString(key, value).apply()
-    }
-
-    fun putBool(key: String, value: Boolean) {
-        e.putBoolean(key, value).apply()
+        fun reset() = p.edit().clear().apply()
+        fun remove(key: String) = p.edit().remove(key).apply()
     }
 }
