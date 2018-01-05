@@ -18,6 +18,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        
+        Auth.auth().signInAnonymously() { (user, error) in
+            // ...
+//            let devicePairing = DevicePairing()
+//            devicePairing.registerPairRequest(onResult: {(code) in
+//                guard let pairingCode = code else {
+//                    print("not logged in?!?!?!?")
+//                    return
+//                }
+//                print("got result!!! \(pairingCode) waiting for acknowledge")
+//                devicePairing.waitForAcknowledge(code: pairingCode, onResult: {(result) in
+//                    print("acknowledged... DONE!!!")
+//                })
+//            })
+            
+//            DevicePairing().acknowledgePairing(code: "290686", onResult: {(result) in
+//                print("got result!!! \(result)")
+//            })
+        }
+        
         return true
     }
 

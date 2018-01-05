@@ -72,11 +72,7 @@ class GateActivity : AppCompatActivity() {
         // should login here...
         FirebaseAuth.getInstance().signInAnonymously()
 
-        when (Pref.getString(Pref.appMode)) {
-            null -> showWelcomeUi()
-            appModePair -> startPairModeActivity()
-            appModeCall -> startCallModeActivity()
-        }
+        checkModeAndStart()
     }
 
     // need to check google play service first
@@ -133,6 +129,14 @@ class GateActivity : AppCompatActivity() {
         // none or didn't process back button
         if (frag == null || !frag.onBackPressed())
             super.onBackPressed()
+    }
+
+    fun checkModeAndStart() {
+        when (Pref.getString(Pref.appMode)) {
+            null -> showWelcomeUi()
+            appModePair -> startPairModeActivity()
+            appModeCall -> startCallModeActivity()
+        }
     }
 
     private fun startPairModeActivity() {

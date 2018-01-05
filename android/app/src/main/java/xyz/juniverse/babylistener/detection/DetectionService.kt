@@ -13,7 +13,7 @@ import android.telephony.PhoneStateListener
 import android.telephony.SmsManager
 import android.telephony.TelephonyManager
 import xyz.juniverse.babylistener.R
-import xyz.juniverse.babylistener.MainActivity
+import xyz.juniverse.babylistener.ui.CallModeActivity
 import xyz.juniverse.babylistener.etc.*
 import xyz.juniverse.babylistener.firebase.Report
 
@@ -159,7 +159,7 @@ class DetectionService : Service() {
         val builder = NotificationCompat.Builder(baseContext, "babylistener")
         builder.setSmallIcon(R.mipmap.ic_launcher).setContentTitle(getString(R.string.notification_title)).setContentText(getString(R.string.notification_msg))
 
-        val intent = Intent(baseContext, MainActivity::class.java)
+        val intent = Intent(baseContext, CallModeActivity::class.java)
 //        intent.putExtra(BabyListener.KEY_STOP_DETECT, true)
         builder.setContentIntent(PendingIntent.getActivity(baseContext, 0, intent, 0))
         builder.setOngoing(true)

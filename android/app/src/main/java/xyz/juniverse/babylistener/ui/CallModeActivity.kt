@@ -1,4 +1,4 @@
-package xyz.juniverse.babylistener
+package xyz.juniverse.babylistener.ui
 
 import android.Manifest
 import android.app.NotificationManager
@@ -28,6 +28,10 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
 import kotlinx.android.synthetic.main.activity_main.*
+import xyz.juniverse.babylistener.ContactAdapter
+import xyz.juniverse.babylistener.QuestionsActivity
+import xyz.juniverse.babylistener.R
+import xyz.juniverse.babylistener.SettingsActivity
 import xyz.juniverse.babylistener.detection.DetectionService
 import xyz.juniverse.babylistener.detection.Detector
 import xyz.juniverse.babylistener.firebase.Ad
@@ -37,7 +41,7 @@ import xyz.juniverse.babylistener.etc.console
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
+class CallModeActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     private var sensitivityValue = 0
     private lateinit var mInterstitialAd: InterstitialAd

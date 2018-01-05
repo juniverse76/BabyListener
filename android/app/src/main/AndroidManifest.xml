@@ -18,17 +18,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".ui.GateActivity"
-                  android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".ui.GateActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.CallModeActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar">
@@ -67,7 +67,6 @@
             </intent-filter>
         </receiver>
 
-
         <service android:name=".firebase.InstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
@@ -78,6 +77,8 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+
+        <activity android:name=".ui.PairModeActivity" android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 

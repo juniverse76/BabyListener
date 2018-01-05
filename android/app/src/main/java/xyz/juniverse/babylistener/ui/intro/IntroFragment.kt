@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import xyz.juniverse.babylistener.R
 import xyz.juniverse.babylistener.etc.console
+import xyz.juniverse.babylistener.ui.GateActivity
 
 /**
  * Created by juniverse on 04/01/2018.
@@ -69,6 +70,9 @@ open class IntroFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(view: View) {
         console.d("unhandled button", view.id)
+
+        // todo start button...
+//        (activity as GateActivity).checkModeAndStart()
 
         moveFragmentMap[view.id]?.let { viewId ->
             startFragment(create(viewId))

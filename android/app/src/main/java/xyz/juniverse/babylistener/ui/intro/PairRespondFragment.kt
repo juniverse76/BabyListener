@@ -18,15 +18,20 @@ class PairRespondFragment : IntroFragment() {
             super.onClick(view)
     }
 
+    private val devicePairing = DevicePairing()
     private fun acknowledge() {
         val pairCode = view?.text_pair_code?.text?.toString() ?: return
 
-        val acknowledging = DevicePairing.getInstance().acknowledgePairing(pairCode, { result ->
+        // todo start loading...
+        val acknowledging = devicePairing.acknowledgePairing(pairCode, { result ->
             console.d("result???", result)
+            // todo stop loading...
             if (result == DevicePairing.SUCCESS) {
                 console.d("success!!!!")
                 // todo clear all back stack...
-                startFragment(IntroFragment.create(R.layout.frag_final_intro))
+                // todo set as 'pair mode'
+//                (activity as GateActivity).checkModeAndStart()
+                startFragment(create(R.layout.frag_pair_mode_final))
             } else {
                 console.e("failed...")
                 // todo notify user

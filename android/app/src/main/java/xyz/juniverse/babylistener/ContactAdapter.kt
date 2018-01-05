@@ -8,11 +8,12 @@ import android.widget.ArrayAdapter
 import android.widget.Filter
 import android.widget.TextView
 import xyz.juniverse.babylistener.etc.console
+import xyz.juniverse.babylistener.ui.CallModeActivity
 
 /**
  * Created by juniverse on 28/11/2017.
  */
-class ContactAdapter(context: Context?, list: ArrayList<MainActivity.Contact>) : ArrayAdapter<MainActivity.Contact>(context, R.layout.item_contact, list) {
+class ContactAdapter(context: Context?, list: ArrayList<CallModeActivity.Contact>) : ArrayAdapter<CallModeActivity.Contact>(context, R.layout.item_contact, list) {
     private val maxSize = 5
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -27,7 +28,7 @@ class ContactAdapter(context: Context?, list: ArrayList<MainActivity.Contact>) :
 
     override fun getFilter(): Filter = filter
 
-    val suggestion = ArrayList<MainActivity.Contact>()
+    val suggestion = ArrayList<CallModeActivity.Contact>()
 
     private val filter = object: Filter() {
         override fun performFiltering(charSequence: CharSequence?): FilterResults {
@@ -52,7 +53,7 @@ class ContactAdapter(context: Context?, list: ArrayList<MainActivity.Contact>) :
                 return
 
             clear()
-            val filtered = filterResults.values as ArrayList<MainActivity.Contact>
+            val filtered = filterResults.values as ArrayList<CallModeActivity.Contact>
             for (contact in filtered)
                 add(contact)
             notifyDataSetChanged()
@@ -60,7 +61,7 @@ class ContactAdapter(context: Context?, list: ArrayList<MainActivity.Contact>) :
 
         override fun convertResultToString(resultValue: Any?): CharSequence {
             console.d("convertResultToString")
-            val contact = resultValue as? MainActivity.Contact
+            val contact = resultValue as? CallModeActivity.Contact
             return contact?.number ?: ""
         }
     }

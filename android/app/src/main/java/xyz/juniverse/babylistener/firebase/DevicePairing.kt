@@ -18,12 +18,12 @@ import java.util.*
  */
 class DevicePairing {
     companion object {
-        private var _instance: DevicePairing? = null
-        fun getInstance(): DevicePairing {
-            if (_instance == null)
-                _instance = DevicePairing()
-            return _instance!!
-        }
+//        private var _instance: DevicePairing? = null
+//        fun getInstance(): DevicePairing {
+//            if (_instance == null)
+//                _instance = DevicePairing()
+//            return _instance!!
+//        }
 
         val SUCCESS = 0
         val UNKNOWN_CODE = -1
@@ -33,36 +33,10 @@ class DevicePairing {
     private data class PairingData(val reqId: String = "", val time: Long = 0, var ackId: String? = null)
 
 
-//    private val maxWaitTime: Long = 3 * 60 * 1000      // 3 minutes
-    private val maxWaitTime: Long = 30 * 1000      // 30 seconds
+    private val maxWaitTime: Long = 3 * 60 * 1000      // 3 minutes
+//    private val maxWaitTime: Long = 30 * 1000      // 30 seconds
     private val pairDbRef
         get() = FirebaseDatabase.getInstance().getReference(DB.Table.pair)
-
-
-
-    fun registerTest() {
-        val currentUser = FirebaseAuth.getInstance().currentUser ?: return
-
-        console.d("I am ", currentUser.uid)
-        pairDbRef.addListenerForSingleValueEvent(object: ValueEventListener{
-            override fun onCancelled(error: DatabaseError?) {
-                console.d("value event onCancelled", error)
-            }
-            override fun onDataChange(snapshot: DataSnapshot) {
-                console.d("value event onDataChange", snapshot)
-                val key = "999999"
-                if (!snapshot.children.any { it.key == key }) {
-                    console.d("adding pairing request..")
-                    pairDbRef.child(key).setValue(PairingData(currentUser.uid, Date().time))
-                    pairDbRef.removeEventListener(this)
-                } else {
-                    console.d("key already in... cannot write")
-                }
-            }
-        })
-    }
-
-
 
 
     fun registerPairRequest(onResult: (String?) -> Unit) {
@@ -89,17 +63,6 @@ class DevicePairing {
         })
     }
 
-
-    fun cancelWaitingForAck(code: String?) {
-        if (code == null) return
-
-        console.d("cancelWaitingForAck")
-        cancelTimer?.cancel()
-        pairDbRef.child(code).removeEventListener(acknowledgeListener)
-        pairDbRef.child(code).removeValue()
-        acknowledgeListener = null
-    }
-
     // wait for that code to change. if false, timeout
     private var acknowledgeListener: ValueEventListener? = null
     private var cancelTimer: Timer? = null
@@ -111,7 +74,7 @@ class DevicePairing {
             override fun onCancelled(databaseError: DatabaseError) {
                 // just in case
                 console.d("onCancelled", databaseError)
-                codeDatRef.removeEventListener(this)
+                cancelWaitingForAck(code)
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -149,6 +112,15 @@ class DevicePairing {
         }, maxWaitTime)
     }
 
+    fun cancelWaitingForAck(code: String?) {
+        if (code == null || acknowledgeListener == null) return
+
+        console.d("cancelWaitingForAck")
+        cancelTimer?.cancel()
+        pairDbRef.child(code).removeEventListener(acknowledgeListener)
+        pairDbRef.child(code).removeValue()
+        acknowledgeListener = null
+    }
 
 
 

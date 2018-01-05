@@ -13,6 +13,7 @@
 		324D03681FFB5FC500543380 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 324D03671FFB5FC500543380 /* Assets.xcassets */; };
 		324D036B1FFB5FC500543380 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 324D03691FFB5FC500543380 /* LaunchScreen.storyboard */; };
 		32CF767D1FFB60C60081AB43 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32CF767C1FFB60C60081AB43 /* GoogleService-Info.plist */; };
+		32CF76811FFF2BDC0081AB43 /* DevicePairing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CF76801FFF2BDC0081AB43 /* DevicePairing.swift */; };
 		558FA93286E4BBC33AF11849 /* Pods_BabyListener.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90897E6D17E8AE4D2ABAF13B /* Pods_BabyListener.framework */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +27,7 @@
 		324D036A1FFB5FC500543380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		324D036C1FFB5FC500543380 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		32CF767C1FFB60C60081AB43 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		32CF76801FFF2BDC0081AB43 /* DevicePairing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicePairing.swift; sourceTree = "<group>"; };
 		78911A6294768F40F9D95D77 /* Pods-BabyListener.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabyListener.release.xcconfig"; path = "Pods/Target Support Files/Pods-BabyListener/Pods-BabyListener.release.xcconfig"; sourceTree = "<group>"; };
 		90897E6D17E8AE4D2ABAF13B /* Pods_BabyListener.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BabyListener.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -71,6 +73,7 @@
 		324D035F1FFB5FC500543380 /* BabyListener */ = {
 			isa = PBXGroup;
 			children = (
+				32CF76821FFF30890081AB43 /* firebase */,
 				32CF767C1FFB60C60081AB43 /* GoogleService-Info.plist */,
 				324D03601FFB5FC500543380 /* AppDelegate.swift */,
 				324D03621FFB5FC500543380 /* ViewController.swift */,
@@ -80,6 +83,14 @@
 				324D036C1FFB5FC500543380 /* Info.plist */,
 			);
 			path = BabyListener;
+			sourceTree = "<group>";
+		};
+		32CF76821FFF30890081AB43 /* firebase */ = {
+			isa = PBXGroup;
+			children = (
+				32CF76801FFF2BDC0081AB43 /* DevicePairing.swift */,
+			);
+			path = firebase;
 			sourceTree = "<group>";
 		};
 		7ED1E13A4513726609F2983D /* Pods */ = {
@@ -216,6 +227,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				324D03631FFB5FC500543380 /* ViewController.swift in Sources */,
+				32CF76811FFF2BDC0081AB43 /* DevicePairing.swift in Sources */,
 				324D03611FFB5FC500543380 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
