@@ -70,9 +70,10 @@ class GateActivity : AppCompatActivity() {
      */
     private fun startAppEntry() {
         // should login here...
-        FirebaseAuth.getInstance().signInAnonymously()
-
-        checkModeAndStart()
+//        startActivity(Intent(baseContext, CallModeActivity::class.java))
+        startActivity(Intent(baseContext, WebRtcTestActivity::class.java))
+//        FirebaseAuth.getInstance().signInAnonymously()
+//        checkModeAndStart()
     }
 
     // need to check google play service first

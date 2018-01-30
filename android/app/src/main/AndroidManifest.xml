@@ -11,6 +11,10 @@
     <uses-permission android:name="android.permission.BATTERY_STATS"/>
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -78,8 +82,11 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".ui.PairModeActivity" android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".ui.PairModeActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ui.WebRtcTestActivity">
+        </activity>
     </application>
 
 </manifest>

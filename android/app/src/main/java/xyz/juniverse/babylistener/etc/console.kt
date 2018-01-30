@@ -1,6 +1,7 @@
 package xyz.juniverse.babylistener.etc
 
 import android.util.Log
+import android.widget.TextView
 
 /**
  * Created by juniverse on 22/11/2017.
@@ -16,6 +17,15 @@ class console {
         fun d(vararg args: Any?) {
             if (!enable) return
             Log.d(TAG, makeLogText(*args))
+        }
+
+        fun d(textView: TextView, vararg args: Any?) {
+            if (!enable) return
+            val log = makeLogText(*args)
+            Log.d(TAG, log)
+            textView.post({
+                textView.text = String.format("%s\n%s", textView.text, log)
+            })
         }
 
         fun i(vararg args: Any?) {

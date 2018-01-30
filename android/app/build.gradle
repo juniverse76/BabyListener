@@ -41,6 +41,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:11.8.0'
 
     compile "org.jetbrains.kotlin:kotlin-reflect:1.2.0"
+    compile 'io.pristine:libjingle:9127@aar'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
