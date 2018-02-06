@@ -7,14 +7,28 @@
 //
 
 import UIKit
-import Firebase
 import WebRTC
+import Firebase
 
 class ViewController: UIViewController, DetectorDelegate, RTCPeerConnectionDelegate {
 
     let WEBRTC_TABLE_NAME = "webrtc"
-    private var peerConnection: RTCPeerConnection!
-    private var audioContraint: RTCMediaConstraints!
+    private let factory = RTCPeerConnectionFactory()
+    let audioContraint = RTCMediaConstraints.init(mandatoryConstraints: ["OfferToReceiveAudio": "true"], optionalConstraints: nil)
+    let configuration = RTCConfiguration()
+    var peerConnection: RTCPeerConnection
+//    private let dbRef = Database.database().reference(withPath: "webrtc")
+//    private var audioContraint: RTCMediaConstraints? = nil
+    
+//    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+//    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        configuration.iceServers = [RTCIceServer.init(urlStrings: ["stun:stun.l.google.com:19302"])]
+        peerConnection = factory.peerConnection(with: configuration, constraints: audioContraint, delegate: nil)
+
+        super.init(coder: aDecoder)
+    }
     
     let detector = Detector()
 
@@ -27,7 +41,7 @@ class ViewController: UIViewController, DetectorDelegate, RTCPeerConnectionDeleg
         
 //        detector.setDetectorDelegate(self)
 //        detector.setSensitivity(2000)
-        initWebRTC()
+//        initWebRTC()
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,7 +51,8 @@ class ViewController: UIViewController, DetectorDelegate, RTCPeerConnectionDeleg
 
     private var running: Bool = false
     @IBAction func onStart(_ sender: UIButton) {
-        createOffer()
+        initWebRTC()
+//        createOffer()
 //        print("onStart")
 //        if running {
 //            detector.start()
@@ -96,23 +111,85 @@ class ViewController: UIViewController, DetectorDelegate, RTCPeerConnectionDeleg
     func initWebRTC() {
 //        print(RTCInitializeSSL())
         
+//        RTCInitializeSSL()
         print("initWebRTC")
-        let audioContraint = RTCMediaConstraints.init(mandatoryConstraints: ["OfferToReceiveAudio": "true"], optionalConstraints: ["OfferToReceiveAudio": "true"])
-        let factory = RTCPeerConnectionFactory.init()
-        let configuration = RTCConfiguration()
-        configuration.iceServers = [RTCIceServer.init(urlStrings: ["stun:stun.l.google.com:19302"])]
-        peerConnection = factory.peerConnection(with: configuration, constraints: audioContraint, delegate: self)
+//        let audioContraint = RTCMediaConstraints.init(mandatoryConstraints: ["OfferToReceiveAudio": "true"], optionalConstraints: nil)
+//        let configuration = RTCConfiguration()
+//        configuration.iceServers = [RTCIceServer.init(urlStrings: ["stun:stun.l.google.com:19302"])]
+//        configuration.iceServers = [RTCIceServer.init(urlStrings: ["stun:stun.services.mozilla.com"])]
+//        let pc = factory.peerConnection(with: configuration, constraints: audioContraint, delegate: self)
+//        self.peerConnection = factory.peerConnection(with: configuration, constraints: audioContraint, delegate: self)
+        peerConnection.delegate = self
 
         let audioSource = factory.audioSource(with: audioContraint)
         let audioTrack = factory.audioTrack(with: audioSource, trackId: "audio_track_id_ios")
         let audioStream = factory.mediaStream(withStreamId: "audio_stream_id_ios")
         audioStream.addAudioTrack(audioTrack)
-//        peerConnection.add(audioStream)
+        peerConnection.add(audioStream)
         
-//        peerConnection.offer(for: audioContraint, completionHandler: {(description, error) in
+        peerConnection.offer(for: audioContraint, completionHandler: { [weak self] (description, error) in
+            let desc: String = (description?.sdp)!
+//            print("description? \(desc)")
+            print("setting local description")
+            self?.peerConnection.setLocalDescription(description!, completionHandler: nil)
+
+            var type: String
+            if description?.type == .offer {
+                type = "offer"
+            } else {
+                type = "answer"
+            }
+
+            let db = Database.database()
+            let signalingRef = db.reference(withPath: (self?.WEBRTC_TABLE_NAME)!).child("user_id")
+            let signalData = ["type": type, "description": desc]
+            signalingRef.setValue(signalData)
+            
+//            DispatchQueue.main.async {
+                self?.listen()
+//            }
+        })
+        print("initWebRTC done")
+        
+//        self.peerConnection = pc
+    }
+    
+    func listen() {
+//        let codeDataRef = Database.database().reference(withPath: PAIR_TABLE_NAME).child(code)
+        let db = Database.database()
+        let ref = db.reference(withPath: WEBRTC_TABLE_NAME).child("user_id")
+        let handler = ref.observe(DataEventType.value, with: {(snapshot) in
+            print("got snapshot")
+            guard let signalingData = snapshot.value as? [String : String] else {
+                return
+            }
+            let type: String? = signalingData["type"]
+            let desc: String? = signalingData["description"]
+//            print("type: \(type)")
+//            print("desc: \(desc)")
+            
+            if (type?.uppercased() == "ANSWER") {
+                print("is answer!!! setting protocol!!!")
+                let sdp = RTCSessionDescription.init(type: .answer, sdp: desc!)
+                DispatchQueue.main.async {
+//                    let pc = self.factory.peerConnection(with: self.configuration, constraints: self.audioContraint, delegate: self)
+                    self.peerConnection.setRemoteDescription(sdp, completionHandler: {(error) in
+//                    pc.setRemoteDescription(sdp, completionHandler: {(error) in
+                        print("error??? \(error)")
+                    })
+                }
+//                Database.database().reference(withPath: self.WEBRTC_TABLE_NAME).removeValue()
+            }
+        })
+        print("data set... listening... \(handler)")
+    }
+    
+    func createOffer() {
+        print("about to create offer")
+//        self.peerConnection?.offer(for: self.audioContraint!, completionHandler: {(description, error) in
 //            let desc: String = (description?.sdp)!
 //            print("description? \(desc)")
-//            peerConnection.setLocalDescription(description!, completionHandler: nil)
+//            self.peerConnection?.setLocalDescription(description!, completionHandler: nil)
 //
 //            var type: String
 //            if description?.type == .offer {
@@ -122,30 +199,9 @@ class ViewController: UIViewController, DetectorDelegate, RTCPeerConnectionDeleg
 //            }
 //
 //            let signalingRef = Database.database().reference(withPath: self.WEBRTC_TABLE_NAME).child("uiser_id")
-//            let signalData = ["type": type, "description": description?.description]
+//            let signalData = ["type": type, "description": description?.sdp]
 //            signalingRef.setValue(signalData)
 //        })
-        print("initWebRTC done")
-    }
-    
-    func createOffer() {
-        print("about to create offer")
-        peerConnection.offer(for: audioContraint, completionHandler: {(description, error) in
-            let desc: String = (description?.sdp)!
-            print("description? \(desc)")
-            self.peerConnection.setLocalDescription(description!, completionHandler: nil)
-            
-            var type: String
-            if description?.type == .offer {
-                type = "offer"
-            } else {
-                type = "answer"
-            }
-            
-            let signalingRef = Database.database().reference(withPath: self.WEBRTC_TABLE_NAME).child("uiser_id")
-            let signalData = ["type": type, "description": description?.description]
-            signalingRef.setValue(signalData)
-        })
         print("creating offer")
     }
     
